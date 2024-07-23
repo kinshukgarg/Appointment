@@ -1,4 +1,3 @@
-
 const { Appointment } = require('../models');
 
 exports.createAppointment = async (req, res) => {
@@ -7,6 +6,7 @@ exports.createAppointment = async (req, res) => {
     const appointment = await Appointment.create({ studentId, teacherId, date });
     res.json({ appointment });
   } catch (error) {
+    console.error('Error creating appointment:', error);
     res.status(400).json({ error: 'Appointment creation failed' });
   }
 };
@@ -16,6 +16,7 @@ exports.getAppointments = async (req, res) => {
     const appointments = await Appointment.findAll();
     res.json({ appointments });
   } catch (error) {
+    console.error('Error fetching appointments:', error);
     res.status(500).json({ error: 'Failed to fetch appointments' });
   }
 };
@@ -32,6 +33,7 @@ exports.confirmAppointment = async (req, res) => {
       res.status(404).json({ error: 'Appointment not found' });
     }
   } catch (error) {
+    console.error('Error confirming appointment:', error);
     res.status(400).json({ error: 'Appointment confirmation failed' });
   }
 };

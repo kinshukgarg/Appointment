@@ -1,6 +1,6 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './Dashboard.css';
 
 function Dashboard() {
   const [appointments, setAppointments] = useState([]);
@@ -8,7 +8,8 @@ function Dashboard() {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/appointments');
+        const response = await axios.get('http://localhost:8000/api/appointments');
+        console.log('Fetched appointments:', response.data.appointments); // Debug log
         setAppointments(response.data.appointments);
       } catch (error) {
         console.error('Failed to fetch appointments', error);
@@ -19,7 +20,7 @@ function Dashboard() {
 
   const confirmAppointment = async (id) => {
     try {
-      await axios.post(`http://localhost:3000/api/appointments/${id}/confirm`);
+      await axios.post(`http://localhost:8000/api/appointments/${id}/confirm`);
       setAppointments(appointments.map(appointment => 
         appointment.id === id ? { ...appointment, confirmed: true } : appointment
       ));
@@ -29,13 +30,16 @@ function Dashboard() {
   };
 
   return (
-    <div>
+    <div className="dashboard">
       <h2>Dashboard</h2>
       <ul>
         {appointments.map(appointment => (
-          <li key={appointment.id}>
-            {appointment.date} with {appointment.teacherId} - Confirmed: {appointment.confirmed.toString()}
-            {appointment.confirmed ? null : <button onClick={() => confirmAppointment(appointment.id)}>Confirm</button>}
+          <li key={appointment.id} className="appointment-item">
+            <span>{appointment.date} with {appointment.teacherId}</span>
+            <span>Confirmed: {appointment.confirmed.toString()}</span>
+            {!appointment.confirmed && (
+              <button onClick={() => confirmAppointment(appointment.id)}>Confirm</button>
+            )}
           </li>
         ))}
       </ul>
