@@ -1,31 +1,31 @@
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+const User = require('./user');
 
-module.exports = (sequelize, DataTypes) => {
-  const Appointment = sequelize.define('Appointment', {
-    studentId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    teacherId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    date: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    time: {
-      type: DataTypes.TIME,
-      allowNull: false,
-    },
-    status: {
-      type: DataTypes.ENUM('pending', 'accepted', 'rejected'),
-      defaultValue: 'pending',
-    },
-    notified: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-  });
+const Appointment = sequelize.define('Appointment', {
+  studentId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  teacherId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  date: {
+    type: DataTypes.DATEONLY,
+    allowNull: false,
+  },
+  time: {
+    type: DataTypes.TIME,
+    allowNull: false,
+  },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: 'pending',
+  },
+});
 
-  return Appointment;
-};
+Appointment.belongsTo(User, { as: 'Student', foreignKey: 'studentId' });
+Appointment.belongsTo(User, { as: 'Teacher', foreignKey: 'teacherId' });
+
+module.exports = Appointment;
