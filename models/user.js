@@ -11,14 +11,20 @@ const User = sequelize.define('User', {
     unique: true,
     allowNull: false,
   },
-  role: {
+  phone: {
     type: DataTypes.STRING,
+    allowNull: false,
+  },
+  role: {
+    type: DataTypes.ENUM('Teacher', 'Student', 'Institute'),
     allowNull: false,
   },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+  timestamps: true,
 });
 
 module.exports = User;

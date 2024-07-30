@@ -12,17 +12,15 @@ const Appointment = sequelize.define('Appointment', {
     allowNull: false,
   },
   date: {
-    type: DataTypes.DATEONLY,
+    type: DataTypes.DATE,
     allowNull: false,
   },
-  time: {
-    type: DataTypes.TIME,
-    allowNull: false,
+  confirmed: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
-  status: {
-    type: DataTypes.STRING,
-    defaultValue: 'pending',
-  },
+}, {
+  timestamps: true,
 });
 
 Appointment.belongsTo(User, { as: 'Student', foreignKey: 'studentId' });

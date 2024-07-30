@@ -8,16 +8,18 @@ const seed = async () => {
   const hashedTeacherPassword = await bcrypt.hash('teacherpassword', 10);
   await User.create({
     name: 'Predefined Teacher',
-    email: 'Jaishreeram@gmail.com',
-    role: 'teacher',
+    email: 'teacher@example.com',
+    phone: '1234567890',
+    role: 'Teacher',
     password: hashedTeacherPassword,
   });
 
   const hashedAdminPassword = await bcrypt.hash('adminpassword', 10);
   await User.create({
     name: 'Predefined Admin',
-    email: 'jaishreeram@gmail.com',
-    role: 'admin',
+    email: 'admin@example.com',
+    phone: '0987654321',
+    role: 'Institute',
     password: hashedAdminPassword,
   });
 

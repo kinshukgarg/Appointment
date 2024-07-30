@@ -7,7 +7,7 @@ const AppointmentList = ({ token }) => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get('/api/appointments', {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/appointments`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

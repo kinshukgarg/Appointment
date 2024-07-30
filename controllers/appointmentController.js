@@ -1,4 +1,5 @@
-const { Appointment, User } = require('../models');
+const Appointment = require('../models/appointment'); // Corrected the path
+const User = require('../models/user');
 
 exports.createAppointment = async (req, res) => {
   const { studentId, teacherId, date, time } = req.body;

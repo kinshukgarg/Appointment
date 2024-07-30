@@ -6,12 +6,14 @@ import { register } from '../services/api';
 const Register = ({ setToken }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [role, setRole] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = await register(name, email, password);
+      const token = await register(name, email, phone, role, password);
       setToken(token);
     } catch (error) {
       console.error('Registration error:', error);
@@ -35,6 +37,22 @@ const Register = ({ setToken }) => {
         margin="normal"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+      />
+      <TextField
+        label="Phone"
+        variant="standard"
+        fullWidth
+        margin="normal"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+      />
+      <TextField
+        label="Role"
+        variant="standard"
+        fullWidth
+        margin="normal"
+        value={role}
+        onChange={(e) => setRole(e.target.value)}
       />
       <TextField
         label="Password"
