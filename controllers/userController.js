@@ -10,6 +10,17 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+exports.createUser = async (req, res) => {
+  const { name, email, phone, role, password } = req.body;
+  try {
+    const user = await User.create({ name, email, phone, role, password });
+    res.status(201).json({ user });
+  } catch (error) {
+    console.error('Error creating user:', error);
+    res.status(500).json({ error: 'Failed to create user' });
+  }
+};
+
 exports.updateUser = async (req, res) => {
   const { id } = req.params;
   const { name, email, phone, role } = req.body;
@@ -47,8 +58,6 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-
-
 exports.getTeachers = async (req, res) => {
   try {
     console.log('Fetching teachers...');
@@ -62,3 +71,4 @@ exports.getTeachers = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch teachers' });
   }
 };
+

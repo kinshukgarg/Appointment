@@ -1,17 +1,19 @@
-
-const Sequelize = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const User = require('./user')(sequelize, Sequelize);
-const Appointment = require('./appointment')(sequelize, Sequelize);
+const User = require('./user')(sequelize, DataTypes);
+const Appointment = require('./appointment')(sequelize, DataTypes);
 
-User.hasMany(Appointment, { foreignKey: 'studentId' });
-User.hasMany(Appointment, { foreignKey: 'teacherId' });
-Appointment.belongsTo(User, { as: 'Student', foreignKey: 'studentId' });
-Appointment.belongsTo(User, { as: 'Teacher', foreignKey: 'teacherId' });
+const db = {};
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+db.User = User;
+db.Appointment = Appointment;
 
-sequelize.sync({ force: false }).then(() => {
-  console.log('Database & tables created!');
-});
 
-module.exports = { User, Appointment };
+User.hasMany(Appointment, { foreignKey: 'studentId', as: 'StudentAppointments' });
+User.hasMany(Appointment, { foreignKey: 'teacherId', as: 'TeacherAppointments' });
+Appointment.belongsTo(User, { foreignKey: 'studentId', as: 'Student' });
+Appointment.belongsTo(User, { foreignKey: 'teacherId', as: 'Teacher' });
+
+module.exports = db;
