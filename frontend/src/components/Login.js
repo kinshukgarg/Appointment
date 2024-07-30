@@ -1,3 +1,4 @@
+// Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -13,8 +14,8 @@ function Login({ setUser }) {
     try {
       const response = await axios.post('http://localhost:8000/api/auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
-      setUser(response.data.token); // Set the user token in the parent state
-      // Redirect to dashboard
+      localStorage.setItem('role', response.data.role);
+      setUser(response.data.token); 
     } catch (error) {
       setError('Login failed. Please check your credentials.');
       console.error('Login failed', error);
