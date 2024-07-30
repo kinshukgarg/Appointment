@@ -1,4 +1,4 @@
-// routes/appointment.js
+
 const express = require('express');
 const { createAppointment, getAppointments, getTeacherAppointments, confirmAppointment, rejectAppointment } = require('../controllers/appointmentController');
 const isTeacher = require('../middlewares/isTeacher');
