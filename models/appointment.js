@@ -1,3 +1,4 @@
+
 module.exports = (sequelize, DataTypes) => {
   const Appointment = sequelize.define('Appointment', {
     studentId: {
@@ -19,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       type: DataTypes.ENUM('pending', 'accepted', 'rejected'),
       defaultValue: 'pending',
+    },
+    notified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   });
 
