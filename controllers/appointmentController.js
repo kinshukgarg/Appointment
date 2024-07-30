@@ -1,4 +1,4 @@
-// controllers/appointmentController.js
+
 const { Appointment, User } = require('../models');
 
 exports.createAppointment = async (req, res) => {
@@ -105,6 +105,6 @@ exports.rejectAppointment = async (req, res) => {
 };
 
 const notifyStudent = (studentId, message) => {
-  // Implement your notification logic here, e.g., send an email or a push notification
+  
   console.log(`Notifying student ${studentId}: ${message}`);
 };
