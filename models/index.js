@@ -10,7 +10,6 @@ db.sequelize = sequelize;
 db.User = User;
 db.Appointment = Appointment;
 
-
 User.hasMany(Appointment, { foreignKey: 'studentId', as: 'StudentAppointments' });
 User.hasMany(Appointment, { foreignKey: 'teacherId', as: 'TeacherAppointments' });
 Appointment.belongsTo(User, { foreignKey: 'studentId', as: 'Student' });
