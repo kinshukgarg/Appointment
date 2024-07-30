@@ -7,6 +7,8 @@ const sequelize = require('./config/database');
 const authRoutes = require('./routes/auth');
 const appointmentRoutes = require('./routes/appointment');
 const userRoutes = require('./routes/user');
+const authenticate = require('./Middlewares/authenticate');
+const isTeacher = require('./middlewares/isTeacher');
 
 const app = express();
 
@@ -21,6 +23,9 @@ const PORT = process.env.PORT || 3000;
 
 sequelize.authenticate().then(() => {
   console.log('Database connected...');
+  return sequelize.sync();
+}).then(() => {
+  console.log('Database synced...');
 }).catch(err => {
   console.log('Error: ' + err);
 });

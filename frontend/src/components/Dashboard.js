@@ -1,3 +1,4 @@
+// Dashboard.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Dashboard.css';
@@ -8,8 +9,9 @@ function Dashboard() {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/appointments');
-        console.log('Fetched appointments:', response.data.appointments); // Debug log
+        const response = await axios.get('http://localhost:8000/api/appointments/teacher', {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
         setAppointments(response.data.appointments);
       } catch (error) {
         console.error('Failed to fetch appointments', error);
@@ -20,12 +22,27 @@ function Dashboard() {
 
   const confirmAppointment = async (id) => {
     try {
-      await axios.post(`http://localhost:8000/api/appointments/${id}/confirm`);
-      setAppointments(appointments.map(appointment => 
-        appointment.id === id ? { ...appointment, confirmed: true } : appointment
+      await axios.put(`http://localhost:8000/api/appointments/${id}/confirm`, {}, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setAppointments(appointments.map(appointment =>
+        appointment.id === id ? { ...appointment, status: 'accepted' } : appointment
       ));
     } catch (error) {
       console.error('Failed to confirm appointment', error);
+    }
+  };
+
+  const rejectAppointment = async (id) => {
+    try {
+      await axios.put(`http://localhost:8000/api/appointments/${id}/reject`, {}, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setAppointments(appointments.map(appointment =>
+        appointment.id === id ? { ...appointment, status: 'rejected' } : appointment
+      ));
+    } catch (error) {
+      console.error('Failed to reject appointment', error);
     }
   };
 
@@ -35,10 +52,13 @@ function Dashboard() {
       <ul>
         {appointments.map(appointment => (
           <li key={appointment.id} className="appointment-item">
-            <span>{appointment.date} with {appointment.teacherId}</span>
-            <span>Confirmed: {appointment.confirmed.toString()}</span>
-            {!appointment.confirmed && (
-              <button onClick={() => confirmAppointment(appointment.id)}>Confirm</button>
+            <span>{appointment.date} with {appointment.Student.name}</span>
+            <span>Status: {appointment.status}</span>
+            {appointment.status === 'pending' && (
+              <>
+                <button onClick={() => confirmAppointment(appointment.id)}>Accept</button>
+                <button onClick={() => rejectAppointment(appointment.id)}>Reject</button>
+              </>
             )}
           </li>
         ))}

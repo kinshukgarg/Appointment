@@ -1,6 +1,7 @@
 const express = require('express');
-const { register, login } = require('../controllers/authController');
-const authenticate = require('../Middlewares/authenticate');
+const { register } = require('../controllers/registerController');
+const { login } = require('../controllers/loginController');
+const authenticate = require('../middlewares/authenticate');
 const router = express.Router();
 
 router.post('/register', register);
